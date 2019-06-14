@@ -24,8 +24,10 @@ except ImportError:
 
 # read example temperature series
 
-datapath = os.path.join(os.path.dirname(__file__), 'TRY2015_541957091051_Jahr.dat')
-try_weather = pd.read_csv(datapath, skiprows=34, sep='\t', header=None, decimal=',')
+datapath = os.path.join(os.path.dirname(__file__),
+                        'TRY2015_541957091051_Jahr.dat')
+try_weather = pd.read_csv(datapath, skiprows=34, sep='\t', header=None,
+                          decimal=',')
 temperature = try_weather[5]
 
 cal = Germany()
@@ -51,6 +53,9 @@ demand['mfh'] = bdew.HeatBuilding(
     name='MFH').get_bdew_profile()
 
 # Industry, trade, service (ghd: Gewerbe, Handel, Dienstleistung)
+# Valid values for slp_types are:
+# GMK, GPD, GHA, GBD, GKO, GBH, GGA, GBA, GWA, GGB, GMF, GHD
+# https://demandlib.readthedocs.io/en/latest/description.html#heat-profiles
 demand['ghd'] = bdew.HeatBuilding(
     demand.index, holidays=holidays, temperature=temperature,
     shlp_type='ghd', wind_class=0, annual_heat_demand=140000,
